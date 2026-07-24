@@ -1,0 +1,16 @@
+{
+  "critical": "#846466",
+  "warning": "#85735c",
+  "safe": "#657568",
+  "muted": "#686672",
+  "gates": {
+    "usage": {
+      "warning_at_percent": 70,
+      "critical_at_percent": 90
+    },
+    "expiration": {
+      "critical_below_seconds": 86400,
+      "warning_below_seconds": 432000
+    }
+  }
+}
