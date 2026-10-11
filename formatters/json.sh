@@ -2,29 +2,32 @@
 
 feature=""
 
-while (( $# > 0 )); do
-    case "$1" in
-        --feature) feature="$2"; shift 2 ;;
-        --layout) shift 2 ;;
-        *) shift ;;
-    esac
+while (($# > 0)); do
+  case "$1" in
+    --feature)
+      feature="$2"
+      shift 2
+      ;;
+    --layout) shift 2 ;;
+    *) shift ;;
+  esac
 done
 
 payload="$(cat)"
 
 if [[ "$(jq -r '.ok' <<<"$payload")" != true ]]; then
-    jq '{
+  jq '{
         schema_version,
         ok,
         feature,
         error
     }' <<<"$payload"
-    exit 0
+  exit 0
 fi
 
 case "$feature" in
-    usage)
-        jq '{
+  usage)
+    jq '{
             schema_version,
             ok,
             feature,
@@ -42,9 +45,9 @@ case "$feature" in
                 rate_limit_reset_credits: .data.rate_limit_reset_credits
             }
         }' <<<"$payload"
-        ;;
-    credits)
-        jq '{
+    ;;
+  credits)
+    jq '{
             schema_version,
             ok,
             feature,
@@ -68,15 +71,15 @@ case "$feature" in
                 }
             ]
         }' <<<"$payload"
-        ;;
-    *)
-        jq -cn \
-            --arg feature "$feature" \
-            '{
+    ;;
+  *)
+    jq -cn \
+      --arg feature "$feature" \
+      '{
                 schema_version: 1,
                 ok: false,
                 feature: $feature,
                 error: "unsupported feature"
             }'
-        ;;
+    ;;
 esac
