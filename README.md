@@ -88,3 +88,23 @@ Non-secret API responses are cached with user-only permissions:
 - macOS: `${XDG_CACHE_HOME:-$HOME/Library/Caches}/codex-status`
 
 Authentication tokens are neither cached nor placed in process arguments.
+
+## Development checks
+
+Install [Pragma](https://github.com/zakstak/pragma) into a checkout with
+`~/.pragma/install.sh --agent "$PWD"`, then run `prek run --all-files` and
+`prek run --all-files --hook-stage pre-push`. The hooks use `PRAGMA_HOME`, the
+local `pragma.home` Git setting, or `~/.pragma`, so the committed configuration
+does not depend on a developer's machine path. This refresh was generated from
+Pragma commit `67843c5075e46f2cf0a5722fc3f4e5ff52ff0fda`.
+
+The repository's additional `shell-tests` pre-push hook runs
+`bash tests/run.sh`. Preserve this hook when regenerating `prek.toml`. The tests
+use synthetic local responses and an isolated installation, cover formatter
+output, theme preservation, cache fallback and permissions, and never call the
+backend. The BSD date branch is simulated; native macOS validation remains
+separate.
+
+Runtime dependencies (`bash`, `curl`, and `jq`) come from the operating system
+or your package manager. There are no vendored dependencies or version pins to
+refresh here; Bash 3.2 compatibility is intentional for macOS.
