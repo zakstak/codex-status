@@ -96,7 +96,9 @@ Install [Pragma](https://github.com/zakstak/pragma) into a checkout with
 `prek run --all-files --hook-stage pre-push`. The hooks use `PRAGMA_HOME`, the
 local `pragma.home` Git setting, or `~/.pragma`, so the committed configuration
 does not depend on a developer's machine path. This refresh was generated from
-Pragma commit `67843c5075e46f2cf0a5722fc3f4e5ff52ff0fda`.
+Pragma commit `0fa579cb6c632b17dc27578abf17bb13fe8f7a98`. The generated hooks
+include staged generated-artifact and secret checks before commits, plus project
+tests and optional TypeScript shadow checks before pushes.
 
 The repository's additional `shell-tests` pre-push hook runs
 `bash tests/run.sh`. Preserve this hook when regenerating `prek.toml`. The tests
